@@ -1,6 +1,6 @@
 # AI-Powered LinkedIn Content Generator
 
-An AI-powered web application that generates professional LinkedIn posts based on topic, length, language, and emoji preferences.  
+An AI-powered web application that generates professional LinkedIn posts based on topic, length and language preferences.
 Built using **Streamlit**, **LangChain**, and **Groq LLM**, and deployed on **Render Cloud**.
 
 
@@ -11,10 +11,10 @@ Built using **Streamlit**, **LangChain**, and **Groq LLM**, and deployed on **Re
 
 ## Features
 
-✅ Generate high-quality LinkedIn posts instantly  
+✅ Generate good-quality LinkedIn posts instantly  
 ✅ Select topic, length, and language  
 ✅ Supports English, Hinglish, French, Spanish  
-✅ Cloud deployed and mobile-friendly  
+✅ Cloud deployed and mobile-friendly too
 ✅ Live public demo available
 
 ## System Architecture
@@ -93,11 +93,11 @@ streamlit run main.py --server.port $PORT --server.address 0.0.0.0
 
 ## Future Improvements
 
-- 🔹 Post templates
-- 🔹 Hashtag suggestions
-- 🔹 Save history
-- 🔹 Download posts
-- 🔹 User login
+- Post templates
+- Hashtag suggestions
+- Save history
+- Download posts
+- User login
 
 ## License
 
