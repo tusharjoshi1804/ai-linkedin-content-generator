@@ -7,50 +7,51 @@ from post_generator import generate_post
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
 
-
-# Main app layout
 def main():
-    st.subheader("AI-Powered LinkedIn Content Generator")
+    # Page settings
+    st.set_page_config(
+        page_title="AI LinkedIn Content Generator",
+        page_icon="🚀",
+        layout="centered"
+    )
 
-    # Create three columns for the dropdowns
-    col1, col2, col3 = st.columns(3)
+    # Header
+    st.title("🚀 AI-Powered LinkedIn Content Generator")
+    st.caption("Generate professional LinkedIn posts instantly using AI.")
+    st.divider()
+
+    # Sidebar controls
+    st.sidebar.header("⚙️ Post Settings")
 
     fs = FewShotPosts()
     tags = fs.get_tags()
-    with col1:
-        # Dropdown for Topic (Tags)
-        selected_tag = st.selectbox("Topic", options=tags)
 
-    with col2:
-        # Dropdown for Length
-        selected_length = st.selectbox("Length", options=length_options)
+    selected_tag = st.sidebar.selectbox("📌 Topic", options=tags)
+    selected_length = st.sidebar.selectbox("📏 Length", options=length_options)
+    selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
+    use_emoji = st.sidebar.checkbox("😄 Include Emojis", value=True)
 
-    with col3:
-        # Dropdown for Language
-        selected_language = st.selectbox("Language", options=language_options)
-        
-        use_emoji = st.checkbox("✨ Include Emojis", value=True)
+    st.divider()
 
+    # Generate button
+    generate = st.button("✨ Generate Post", use_container_width=True)
 
-    # Generate Button
-    if st.button("Generate"):
-    post = generate_post(
-        selected_length,
-        selected_language,
-        selected_tag,
-        use_emoji
-    )
+    if generate:
+        with st.spinner("Generating your post..."):
+            post = generate_post(
+                selected_length,
+                selected_language,
+                selected_tag,
+                use_emoji
+            )
 
-    st.success("Post generated successfully!")
+        st.success("✅ Post generated successfully!")
 
-    # Copy-friendly text area
-    st.text_area(
-        "Your Generated Post (Tap and hold to copy)",
-        post,
-        height=250
-    )
-
-
-# Run the app
-if __name__ == "__main__":
-    main()
+        # Output section
+        with st.container(border=True):
+            st.subheader("📝 Generated Post")
+            st.text_area(
+                "Tap and hold to copy",
+                post,
+                height=260
+            )
