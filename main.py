@@ -2,7 +2,6 @@ import streamlit as st
 from few_shot import FewShotPosts
 from post_generator import generate_post
 
-
 # Options for length and language
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
@@ -29,9 +28,12 @@ def main():
     selected_tag = st.sidebar.selectbox("📌 Topic", options=tags)
     selected_length = st.sidebar.selectbox("📏 Length", options=length_options)
     selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
-    use_emoji = st.sidebar.checkbox("😄 Include Emojis", value=True)
+    use_emoji = st.sidebar.checkbox("😊 Include Emojis", value=True)
 
     st.divider()
+
+    # ✅ IMPORTANT: Initialize post variable
+    post = ""
 
     # Generate button
     generate = st.button("✨ Generate Post", use_container_width=True)
@@ -48,16 +50,14 @@ def main():
         st.success("✅ Post generated successfully!")
 
     # Output section
-with st.container(border=True):
-    st.subheader("📄 Generated Post")
-    st.text_area(
-        "Tap and hold to copy",
-        post,
-        height=260
-    )
-    
-# 👇 ADD THIS BELOW
+    with st.container(border=True):
+        st.subheader("📄 Generated Post")
+        st.text_area(
+            "Tap and hold to copy",
+            post,
+            height=260
+        )
+
+# Run app
 if __name__ == "__main__":
     main()
-
-
