@@ -13,22 +13,23 @@ def get_length_str(length):
         return "11 to 15 lines"
 
 
-def generate_post(length, language, tag):
-    prompt = get_prompt(length, language, tag)
+def generate_post(length, language, tag, use_emoji):
+    prompt = get_prompt(length, language, tag, use_emoji)
     response = llm.invoke(prompt)
     return response.content
 
 
-def get_prompt(length, language, tag):
+def get_prompt(length, language, tag, use_emoji):
     length_str = get_length_str(length)
 
-    prompt = f'''
-Generate a professional LinkedIn post using the below information. No preamble.
+emoji_instruction = "Include relevant emojis." if use_emoji else "Do not include emojis."
+    prompt = f"""
+Generate a LinkedIn post using the below information. No preamble.
 
 1) Topic: {tag}
 2) Length: {length_str}
 3) Language: {language}
-
+4) Emoji Rule: {emoji_instruction}
 Rules:
 - If Language is Hinglish, mix Hindi and English.
 - If Language is French, generate the post fully in French.
