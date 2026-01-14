@@ -19,35 +19,33 @@ def generate_post(length, language, tag, use_emoji):
     return response.content
 
 
-
 def get_prompt(length, language, tag, use_emoji):
     length_str = get_length_str(length)
+
     emoji_instruction = "Include relevant emojis." if use_emoji else "Do not include emojis."
 
     prompt = f"""
-Generate a LinkedIn post using the below information. No preamble.
+Generate a LinkedIn post using the information below.
 
-1) Topic: {tag}
-2) Length: {length_str}
-3) Language: {language}
-4) Emoji Rule: {emoji_instruction}
+Topic: {tag}
+Length: {length_str}
+Language: {language}
+Emoji Rule: {emoji_instruction}
 
 Rules:
 - If language is Hinglish, mix Hindi and English.
-- If language is French, generate the post fully in French.
-- If language is Spanish, generate the post fully in Spanish.
-- Otherwise generate in English.
+- If language is French, write fully in French.
+- If language is Spanish, write fully in Spanish.
+- Otherwise write in English.
+- Keep the tone professional and engaging.
 """
 
     examples = few_shot.get_filtered_posts(length, language, tag)
 
     if len(examples) > 0:
-        prompt += "\nUse the writing style as per the following examples."
-
+        prompt += "\nUse the writing style from these examples:\n"
         for i, post in enumerate(examples):
-            post_text = post["text"]
-            prompt += f"\n\nExample {i+1}:\n\n{post_text}"
-
+            prompt += f"\nExample {i+1}:\n{post['text']}\n"
             if i == 1:
                 break
 
