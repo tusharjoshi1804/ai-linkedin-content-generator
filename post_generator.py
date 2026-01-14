@@ -23,6 +23,7 @@ def get_prompt(length, language, tag, use_emoji):
     length_str = get_length_str(length)
 
 emoji_instruction = "Include relevant emojis." if use_emoji else "Do not include emojis."
+
     prompt = f"""
 Generate a LinkedIn post using the below information. No preamble.
 
@@ -30,12 +31,13 @@ Generate a LinkedIn post using the below information. No preamble.
 2) Length: {length_str}
 3) Language: {language}
 4) Emoji Rule: {emoji_instruction}
+
 Rules:
-- If Language is Hinglish, mix Hindi and English.
-- If Language is French, generate the post fully in French.
-- If Language is Spanish, generate the post fully in Spanish.
+- If language is Hinglish, mix Hindi and English.
+- If language is French, generate the post fully in French.
+- If language is Spanish, generate the post fully in Spanish.
 - Otherwise generate in English.
-'''
+"""
     # prompt = prompt.format(post_topic=tag, post_length=length_str, post_language=language)
 
     examples = few_shot.get_filtered_posts(length, language, tag)
