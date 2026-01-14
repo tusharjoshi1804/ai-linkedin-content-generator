@@ -49,9 +49,15 @@ def main():
 
         # Output section
         with st.container(border=True):
-            st.subheader("📝 Generated Post")
-            st.text_area(
-                "Tap and hold to copy",
-                post,
-                height=260
-            )
+        st.subheader("📄 Generated Post")
+        st.text_area(
+            "Tap and hold to copy",
+            post,
+            height=260
+        )
+
+# 👇 ADD THIS BELOW
+if __name__ == "__main__":
+    main()
+
+
