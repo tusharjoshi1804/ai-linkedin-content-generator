@@ -34,14 +34,21 @@ def main():
 
     # Generate Button
     if st.button("Generate"):
-    with st.spinner("Generating post..."):
-        post = generate_post(
-            selected_length,
-            selected_language,
-            selected_tag,
-            use_emoji
-        )
-        st.write(post)
+    post = generate_post(
+        selected_length,
+        selected_language,
+        selected_tag,
+        use_emoji
+    )
+
+    st.success("Post generated successfully!")
+
+    # Copy-friendly text area
+    st.text_area(
+        "Your Generated Post (Tap and hold to copy)",
+        post,
+        height=250
+    )
 
 
 # Run the app
