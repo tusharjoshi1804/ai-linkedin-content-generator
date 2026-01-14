@@ -28,12 +28,19 @@ def main():
     with col3:
         # Dropdown for Language
         selected_language = st.selectbox("Language", options=language_options)
-
+        
+        use_emoji = st.checkbox("✨ Include Emojis", value=True)
 
 
     # Generate Button
     if st.button("Generate"):
-        post = generate_post(selected_length, selected_language, selected_tag)
+    with st.spinner("Generating post..."):
+        post = generate_post(
+            selected_length,
+            selected_language,
+            selected_tag,
+            use_emoji
+        )
         st.write(post)
 
 
