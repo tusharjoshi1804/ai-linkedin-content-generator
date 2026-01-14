@@ -1,12 +1,15 @@
 import streamlit as st
 from few_shot import FewShotPosts
 from post_generator import generate_post
+from gtts import gTTS
+import tempfile
 
 # Options for length and language
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
 
 def main():
+
     # Page settings
     st.set_page_config(
         page_title="AI LinkedIn Content Generator",
@@ -32,7 +35,7 @@ def main():
 
     st.divider()
 
-    # ✅ IMPORTANT: Initialize post variable
+    # Initialize post variable (IMPORTANT)
     post = ""
 
     # Generate button
@@ -49,14 +52,27 @@ def main():
 
         st.success("✅ Post generated successfully!")
 
+        # 🔊 Text to Speech
+        try:
+            tts = gTTS(text=post, lang="en")
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+            tts.save(tmp_file.name)
+
+            st.audio(tmp_file.name, format="audio/mp3")
+
+        except Exception as e:
+            st.warning("⚠️ Audio generation failed.")
+            st.error(str(e))
+
     # Output section
-    with st.container(border=True):
-        st.subheader("📄 Generated Post")
-        st.text_area(
-            "Tap and hold to copy",
-            post,
-            height=260
-        )
+    if post:
+        with st.container(border=True):
+            st.subheader("📄 Generated Post")
+            st.text_area(
+                "Tap and hold to copy",
+                post,
+                height=260
+            )
 
 # Run app
 if __name__ == "__main__":
