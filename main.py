@@ -4,9 +4,19 @@ from post_generator import generate_post
 from gtts import gTTS
 import tempfile
 
-# Options for length and language
+
+# Options
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
+
+# Map UI language to TTS language code
+LANG_MAP = {
+    "English": "en",
+    "Hinglish": "hi",
+    "French": "fr",
+    "Spanish": "es"
+}
+
 
 def main():
 
@@ -31,7 +41,7 @@ def main():
     selected_tag = st.sidebar.selectbox("📌 Topic", options=tags)
     selected_length = st.sidebar.selectbox("📏 Length", options=length_options)
     selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
-    use_emoji = st.sidebar.checkbox("😊 Include Emojis", value=True)
+    use_emoji = st.sidebar.checkbox("😄 Include Emojis", value=True)
 
     st.divider()
 
@@ -52,9 +62,11 @@ def main():
 
         st.success("✅ Post generated successfully!")
 
-        # 🔊 Text to Speech
+        # Text to Speech
         try:
-            tts = gTTS(text=post, lang="en")
+            tts_lang = LANG_MAP.get(selected_language, "en")
+
+            tts = gTTS(text=post, lang=tts_lang)
             tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
             tts.save(tmp_file.name)
 
@@ -67,13 +79,14 @@ def main():
     # Output section
     if post:
         with st.container(border=True):
-            st.subheader("📄 Generated Post")
+            st.subheader("📝 Generated Post")
             st.text_area(
                 "Tap and hold to copy",
                 post,
                 height=260
             )
 
-# Run app
+
+# Run App
 if __name__ == "__main__":
     main()
