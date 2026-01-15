@@ -7,6 +7,7 @@ import tempfile
 # Language options
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
+tone_options = ["Professional", "Casual", "Motivational", "Storytelling"]
 
 # Map UI language to TTS language code
 LANG_MAP = {
@@ -47,6 +48,7 @@ def main():
     selected_tag = st.sidebar.selectbox("📌 Topic", options=tags)
     selected_length = st.sidebar.selectbox("📏 Length", options=length_options)
     selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
+    selected_tone = st.sidebar.selectbox("🎭 Tone", options=tone_options)
     use_emoji = st.sidebar.checkbox("😊 Include Emojis", value=True)
 
     # Initialize post variable
@@ -58,10 +60,11 @@ def main():
     if generate:
         with st.spinner("Generating your post..."):
             post = generate_post(
-                selected_length,
-                selected_language,
-                selected_tag,
-                use_emoji
+              selected_length,
+              selected_language,
+              selected_tag,
+              use_emoji,
+              selected_tone
             )
 
         st.success("✅ Post generated successfully!")
