@@ -34,18 +34,28 @@ The system leverages **Groq LLM via LangChain**, provides **sentiment analysis**
 ##  System Architecture
 
 ```mermaid
-graph TD
-U[User Browser] --> UI[Streamlit Web UI]
-UI --> APP[Python Backend]
-APP --> FS[FewShot Prompt Engine]
-APP --> LLM[Groq LLM via LangChain]
-APP --> SA[TextBlob Sentiment Analyzer]
-APP --> RS[TextStat Readability Engine]
-APP --> TTS[gTTS Audio Generator]
-APP --> CLOUD[Render Cloud]
-CLOUD --> UI
-UI --> U
+flowchart TB
 
+User[User Browser]
+
+UI[Streamlit Web UI]
+
+Backend[Python Backend<br/>(Hosted on Render Cloud)]
+
+Prompt[Few-Shot Prompt Engine]
+LLM[Groq LLM via LangChain]
+Sentiment[TextBlob Sentiment Analyzer]
+Readability[TextStat Readability Engine]
+TTS[gTTS Audio Generator]
+
+User --> UI
+UI --> Backend
+
+Backend --> Prompt
+Backend --> LLM
+Backend --> Sentiment
+Backend --> Readability
+Backend --> TTS
 ```
 
 ## Local Setup 
