@@ -6,17 +6,13 @@ import tempfile
 from textblob import TextBlob
 import textstat
 
-# ----------------------------------
-# PAGE CONFIG — MUST BE FIRST STREAMLIT COMMAND
-# ----------------------------------
+# ---------------- PAGE CONFIG (ONLY ONCE) ----------------
 st.set_page_config(
-    page_title="AI-Powered LinkedIn Content Generator",
+    page_title="AI LinkedIn Content Generator",
     layout="wide"
 )
 
-# ----------------------------------
-# Reduce top padding (CSS)
-# ----------------------------------
+# ---------------- UI SPACING FIX ----------------
 st.markdown("""
 <style>
 .block-container {
@@ -26,13 +22,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ----------------------------------
-# Options
-# ----------------------------------
+# ---------------- OPTIONS ----------------
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
 tone_options = ["Professional", "Casual", "Motivational", "Storytelling"]
 
+# Map UI language → gTTS language code
 LANG_MAP = {
     "English": "en",
     "Hinglish": "hi",
@@ -40,43 +35,15 @@ LANG_MAP = {
     "Spanish": "es"
 }
 
-# ----------------------------------
-# Sentiment + Readability
-# ----------------------------------
-def analyze_text(text):
-    blob = TextBlob(text)
-    polarity = round(blob.sentiment.polarity, 2)
-
-    if polarity > 0.1:
-        sentiment = "Positive 😊"
-    elif polarity < -0.1:
-        sentiment = "Negative 😟"
-    else:
-        sentiment = "Neutral 😐"
-
-    readability = round(textstat.flesch_reading_ease(text), 1)
-
-    if readability >= 70:
-        level = "Easy 📗"
-    elif readability >= 50:
-        level = "Medium 📘"
-    else:
-        level = "Hard 📕"
-
-    return sentiment, polarity, readability, level
-
-
-# ----------------------------------
-# MAIN APP
-# ----------------------------------
+# ---------------- MAIN APP ----------------
 def main():
 
     # Header
-    st.title("🚀 AI-Powered LinkedIn Content Generator")
+    st.title("AI-Powered LinkedIn Content Generator")
     st.caption("Generate professional LinkedIn posts instantly using AI.")
     st.divider()
 
-    # Sidebar
+    # Sidebar controls
     st.sidebar.header("⚙️ Post Settings")
 
     fs = FewShotPosts()
@@ -88,10 +55,17 @@ def main():
     selected_tone = st.sidebar.selectbox("🎭 Tone", options=tone_options)
     use_emoji = st.sidebar.checkbox("😊 Include Emojis", value=True)
 
+    st.divider()
+
+    # Initialize variables
     post = ""
+    sentiment_score = None
+    readability_score = None
 
     # Generate button
-    if st.button("✨ Generate Post", use_container_width=True):
+    generate = st.button("✨ Generate Post", use_container_width=True)
+
+    if generate:
         with st.spinner("Generating your post..."):
             post = generate_post(
                 selected_length,
@@ -103,34 +77,35 @@ def main():
 
         st.success("✅ Post generated successfully!")
 
-        # ---------------------------
-        # Text to Speech
-        # ---------------------------
+        # ---------------- SENTIMENT ANALYSIS ----------------
+        try:
+            blob = TextBlob(post)
+            sentiment_score = round(blob.sentiment.polarity, 2)
+        except:
+            sentiment_score = "N/A"
+
+        # ---------------- READABILITY SCORE ----------------
+        try:
+            readability_score = round(textstat.flesch_reading_ease(post), 2)
+        except:
+            readability_score = "N/A"
+
+        # ---------------- TEXT TO SPEECH ----------------
         try:
             tts_lang = LANG_MAP.get(selected_language, "en")
             tts = gTTS(text=post, lang=tts_lang)
+
             tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
             tts.save(tmp_file.name)
+
             st.audio(tmp_file.name, format="audio/mp3")
 
         except Exception as e:
             st.warning("⚠️ Audio generation failed.")
             st.error(str(e))
 
-        # ---------------------------
-        # Sentiment + Readability
-        # ---------------------------
-        sentiment, polarity, readability, level = analyze_text(post)
-
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Sentiment", sentiment)
-        col2.metric("Polarity", polarity)
-        col3.metric("Readability", readability)
-        col4.metric("Level", level)
-
-        # ---------------------------
-        # Output
-        # ---------------------------
+    # ---------------- OUTPUT SECTION ----------------
+    if post:
         with st.container(border=True):
             st.subheader("📄 Generated Post")
             st.text_area(
@@ -139,9 +114,15 @@ def main():
                 height=260
             )
 
+            col1, col2 = st.columns(2)
 
-# ----------------------------------
-# Run App
-# ----------------------------------
+            with col1:
+                st.metric("Sentiment Score", sentiment_score)
+
+            with col2:
+                st.metric("Readability Score", readability_score)
+
+
+# ---------------- RUN APP ----------------
 if __name__ == "__main__":
     main()
