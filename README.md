@@ -35,25 +35,31 @@ The system leverages **Groq LLM via LangChain**, provides **sentiment analysis**
 
 ```mermaid
 flowchart TB
+    User["User Browser"]
+    UI["Streamlit Web UI"]
+    Backend["Python Backend (Render Cloud)"]
 
-User[User Browser]
-UI[Streamlit Web UI]
-Backend[Python Backend - Render Cloud]
+    Prompt["Few-Shot Prompt Engine"]
+    LangChain["LangChain Orchestration"]
+    LLM["Groq LLM API"]
 
-Prompt[Few Shot Prompt Engine]
-LLM[Groq LLM via LangChain]
-Sentiment[TextBlob Sentiment Analyzer]
-Readability[TextStat Readability Engine]
-TTS[gTTS Audio Generator]
+    Sentiment["TextBlob Sentiment Analyzer"]
+    Readability["TextStat Readability Engine"]
+    TTS["gTTS Audio Generator (Optional)"]
 
-User --> UI
-UI --> Backend
+    User --> UI
+    UI --> Backend
 
-Backend --> Prompt
-Backend --> LLM
-Backend --> Sentiment
-Backend --> Readability
-Backend --> TTS
+    Backend --> Prompt
+    Backend --> LangChain
+    LangChain --> LLM
+
+    Backend --> Sentiment
+    Backend --> Readability
+    Backend --> TTS
+
+    Backend --> UI
+    UI --> User
 ```
 
 ## Local Setup 
