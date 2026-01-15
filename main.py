@@ -41,7 +41,6 @@ def main():
     # Header
     st.title("AI-Powered LinkedIn Content Generator")
     st.caption("Generate professional LinkedIn posts instantly using AI.")
-    st.divider()
 
     # Sidebar controls
     st.sidebar.header("⚙️ Post Settings")
@@ -116,7 +115,7 @@ def main():
     # ---------------- OUTPUT SECTION ----------------
     if post:
         with st.container(border=True):
-            st.subheader("📝 Generated Post")
+            st.subheader("Generated Post")
             st.text_area(
                 "Tap and hold to copy",
                 post,
@@ -124,7 +123,7 @@ def main():
             )
 
             if hashtags:
-                st.markdown("### 🔖 Suggested Hashtags")
+                st.markdown("### Suggested Hashtags")
                 st.code(hashtags)
 
         col1, col2 = st.columns(2)
