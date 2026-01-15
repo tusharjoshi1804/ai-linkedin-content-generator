@@ -84,15 +84,15 @@ def main():
  
        progress.progress(100)
 
-            # --------- SAFELY HANDLE TUPLE OR STRING ----------
+            # ---------- SAFELY HANDLE TUPLE OR STRING ----------
             if isinstance(result, tuple):
-                post = str(result[0])
-                hashtags = str(result[1]) if len(result) > 1 else ""
+               post = str(result[0])
+               hashtags = str(result[1]) if len(result) > 1 else ""
             else:
-                post = str(result)
-                hashtags = ""
+              post = str(result)
+              hashtags = ""
 
-        st.success("✅ Post generated successfully!")
+         st.success("✅ Post generated successfully!")
 
         # ---------------- SENTIMENT ANALYSIS ----------------
         try:
