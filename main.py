@@ -4,8 +4,7 @@ from post_generator import generate_post
 from gtts import gTTS
 import tempfile
 
-
-# Options
+# Language options
 length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
 
@@ -17,20 +16,27 @@ LANG_MAP = {
     "Spanish": "es"
 }
 
+# Reduce top padding for better UI spacing
+st.markdown("""
+<style>
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+</style>
+""", unsafe_allow_html=True)
 
 def main():
 
     # Page settings
     st.set_page_config(
         page_title="AI LinkedIn Content Generator",
-        page_icon="🚀",
-        layout="centered"
+        layout="wide"
     )
 
     # Header
     st.title("🚀 AI-Powered LinkedIn Content Generator")
     st.caption("Generate professional LinkedIn posts instantly using AI.")
-    st.divider()
 
     # Sidebar controls
     st.sidebar.header("⚙️ Post Settings")
@@ -41,11 +47,9 @@ def main():
     selected_tag = st.sidebar.selectbox("📌 Topic", options=tags)
     selected_length = st.sidebar.selectbox("📏 Length", options=length_options)
     selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
-    use_emoji = st.sidebar.checkbox("😄 Include Emojis", value=True)
+    use_emoji = st.sidebar.checkbox("😊 Include Emojis", value=True)
 
-    st.divider()
-
-    # Initialize post variable (IMPORTANT)
+    # Initialize post variable
     post = ""
 
     # Generate button
@@ -65,8 +69,8 @@ def main():
         # Text to Speech
         try:
             tts_lang = LANG_MAP.get(selected_language, "en")
-
             tts = gTTS(text=post, lang=tts_lang)
+
             tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
             tts.save(tmp_file.name)
 
@@ -76,16 +80,15 @@ def main():
             st.warning("⚠️ Audio generation failed.")
             st.error(str(e))
 
-    # Output section
+    # Output Section
     if post:
         with st.container(border=True):
-            st.subheader("📝 Generated Post")
+            st.subheader("📄 Generated Post")
             st.text_area(
                 "Tap and hold to copy",
                 post,
                 height=260
             )
-
 
 # Run App
 if __name__ == "__main__":
