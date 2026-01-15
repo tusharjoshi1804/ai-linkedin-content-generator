@@ -27,7 +27,7 @@ length_options = ["Short", "Medium", "Long"]
 language_options = ["English", "Hinglish", "French", "Spanish"]
 tone_options = ["Professional", "Casual", "Motivational", "Storytelling"]
 
-# Map UI language → gTTS language code
+# ---------------- TTS LANGUAGE MAP ----------------
 LANG_MAP = {
     "English": "en",
     "Hinglish": "hi",
@@ -53,27 +53,36 @@ def main():
     selected_length = st.sidebar.selectbox("📏 Length", options=length_options)
     selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
     selected_tone = st.sidebar.selectbox("🎭 Tone", options=tone_options)
-    use_emoji = st.sidebar.checkbox("😊 Include Emojis", value=True)
+    use_emoji = st.sidebar.checkbox("😄 Include Emojis", value=True)
 
     st.divider()
 
     # Initialize variables
     post = ""
-    sentiment_score = None
-    readability_score = None
+    hashtags = ""
+    sentiment_score = "N/A"
+    readability_score = "N/A"
 
     # Generate button
     generate = st.button("✨ Generate Post", use_container_width=True)
 
     if generate:
         with st.spinner("Generating your post..."):
-            post = generate_post(
+            result = generate_post(
                 selected_length,
                 selected_language,
                 selected_tag,
                 use_emoji,
                 selected_tone
             )
+
+            # --------- SAFELY HANDLE TUPLE OR STRING ----------
+            if isinstance(result, tuple):
+                post = str(result[0])
+                hashtags = str(result[1]) if len(result) > 1 else ""
+            else:
+                post = str(result)
+                hashtags = ""
 
         st.success("✅ Post generated successfully!")
 
@@ -107,21 +116,24 @@ def main():
     # ---------------- OUTPUT SECTION ----------------
     if post:
         with st.container(border=True):
-            st.subheader("📄 Generated Post")
+            st.subheader("📝 Generated Post")
             st.text_area(
                 "Tap and hold to copy",
                 post,
                 height=260
             )
 
-            col1, col2 = st.columns(2)
+            if hashtags:
+                st.markdown("### 🔖 Suggested Hashtags")
+                st.code(hashtags)
 
-            with col1:
-                st.metric("Sentiment Score", sentiment_score)
+        col1, col2 = st.columns(2)
 
-            with col2:
-                st.metric("Readability Score", readability_score)
+        with col1:
+            st.metric("😊 Sentiment Score", sentiment_score)
 
+        with col2:
+            st.metric("📖 Readability Score", readability_score)
 
 # ---------------- RUN APP ----------------
 if __name__ == "__main__":
