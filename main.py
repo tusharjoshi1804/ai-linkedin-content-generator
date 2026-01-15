@@ -41,7 +41,7 @@ def main():
 
     # Header
     st.title("🚀 AI-Powered LinkedIn Content Generator")
-    st.caption("Generate professional LinkedIn posts instantly using AI.")
+    st.caption("Generate professional LinkedIn posts using Generative AI.")
 
     # Sidebar controls
     st.sidebar.header("⚙️ Post Settings")
@@ -109,19 +109,20 @@ def main():
         except:
             readability_score = "N/A"
 
-        # ---------------- TEXT TO SPEECH ----------------
-        try:
-            tts_lang = LANG_MAP.get(selected_language, "en")
-            tts = gTTS(text=post, lang=tts_lang)
+        # ---------------- TEXT TO SPEECH (OPTIONAL) ----------------
+        if enable_audio:
+           try:
+             tts_lang = LANG_MAP.get(selected_language, "en")
+             tts = gTTS(text=post, lang=tts_lang)
 
-            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
-            tts.save(tmp_file.name)
+             tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp3")
+             tts.save(tmp_file.name)
 
-            st.audio(tmp_file.name, format="audio/mp3")
+             st.audio(tmp_file.name, format="audio/mp3")
 
-        except Exception as e:
-            st.warning("⚠️ Audio generation failed.")
-            st.error(str(e))
+           except Exception as e:
+             st.warning("⚠️ Audio generation failed.")
+             st.error(str(e))
 
     # ---------------- OUTPUT SECTION ----------------
     if post:
