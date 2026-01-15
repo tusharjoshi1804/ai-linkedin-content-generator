@@ -40,7 +40,7 @@ LANG_MAP = {
 def main():
 
     # Header
-    st.title("AI-Powered LinkedIn Content Generator")
+    st.title("🚀 AI-Powered LinkedIn Content Generator")
     st.caption("Generate professional LinkedIn posts instantly using AI.")
 
     # Sidebar controls
@@ -67,32 +67,34 @@ def main():
     generate = st.button("✨ Generate Post", use_container_width=True)
 
     if generate:
-       progress = st.progress(0)
+        progress = st.progress(0)
 
-       with st.spinner("⏳ Generating your post..."):
-         progress.progress(20)
+        with st.spinner("⏳ Generating your post..."):
+            progress.progress(20)
+            time.sleep(0.3)
 
-         result = generate_post(
-           selected_length,
-           selected_language,
-           selected_tag,
-           use_emoji,
-           selected_tone
-         )
+            result = generate_post(
+                selected_length,
+                selected_language,
+                selected_tag,
+                use_emoji,
+                selected_tone
+            )
 
-         progress.progress(80)
- 
-       progress.progress(100)
+            progress.progress(80)
+            time.sleep(0.3)
 
-            # ---------- SAFELY HANDLE TUPLE OR STRING ----------
-            if isinstance(result, tuple):
-               post = str(result[0])
-               hashtags = str(result[1]) if len(result) > 1 else ""
-            else:
-              post = str(result)
-              hashtags = ""
+        progress.progress(100)
 
-         st.success("✅ Post generated successfully!")
+        # ---------- SAFELY HANDLE TUPLE OR STRING ----------
+        if isinstance(result, tuple):
+            post = str(result[0])
+            hashtags = str(result[1]) if len(result) > 1 else ""
+        else:
+            post = str(result)
+            hashtags = ""
+
+        st.success("✅ Post generated successfully!")
 
         # ---------------- SENTIMENT ANALYSIS ----------------
         try:
@@ -124,7 +126,7 @@ def main():
     # ---------------- OUTPUT SECTION ----------------
     if post:
         with st.container(border=True):
-            st.subheader("Generated Post")
+            st.subheader("📝 Generated Post")
             st.text_area(
                 "Tap and hold to copy",
                 post,
@@ -132,7 +134,7 @@ def main():
             )
 
             if hashtags:
-                st.markdown("### Suggested Hashtags")
+                st.markdown("### 🔖 Suggested Hashtags")
                 st.code(hashtags)
 
         col1, col2 = st.columns(2)
@@ -142,6 +144,7 @@ def main():
 
         with col2:
             st.metric("📖 Readability Score", readability_score)
+
 
 # ---------------- RUN APP ----------------
 if __name__ == "__main__":
