@@ -8,21 +8,27 @@ The system leverages **Groq LLM via LangChain**, provides **sentiment analysis**
 🔗 **Live App:**  https://genai-post-generator-erv2.onrender.com  
 
 
-## Features
+## Key Features
 
-✔️ Generate professional LinkedIn posts instantly  
-✔️ Select:
-- Topic  
-- Length (Short / Medium / Long)  
-- Tone (Professional / Casual / Motivational / Storytelling)  
-- Language (English, Hinglish, French, Spanish)  
-✔️ Emoji toggle  
-✔️ Auto hashtag generation  
-✔️ Sentiment analysis score  
-✔️ Readability score  
-✔️ Text-to-Speech audio playback  
-✔️ Loading spinner + progress bar  
-✔️ Cloud deployed (Render)  
+✔️ AI-powered LinkedIn post generation using Groq LLM integrated via LangChain  
+✔️ Dynamic prompt engineering with Few-Shot learning for consistent and high-quality outputs  
+✔️ Multi-parameter content control:
+- Topic selection  
+- Post length customization (Short / Medium / Long)  
+- Tone selection (Professional / Casual / Motivational / Storytelling)  
+- Language selection (English, Hinglish, French, Spanish)  
+
+✔️ Emoji inclusion toggle for flexible content personalization  
+✔️ Automatic hashtag generation for improved social media reach  
+✔️ Real-time sentiment analysis using TextBlob to measure emotional polarity  
+✔️ Readability scoring using TextStat to evaluate content clarity and accessibility  
+✔️ Integrated Text-to-Speech (gTTS) for audio playback of generated posts  
+✔️ Responsive web interface built with Streamlit (mobile and desktop compatible)  
+✔️ Loading spinner and progress bar for enhanced user experience  
+✔️ Secure API key handling using environment variables  
+✔️ Cloud deployment on Render with CI/CD via GitHub integration  
+✔️ Public live demo with scalable cloud hosting
+
 
 
 ##  System Architecture
