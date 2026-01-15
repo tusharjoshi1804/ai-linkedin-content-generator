@@ -1,48 +1,48 @@
 # AI-Powered LinkedIn Content Generator
 
-An AI-powered web application that generates professional LinkedIn posts based on topic, length and language preferences.
-Built using **Streamlit**, **LangChain**, and **Groq LLM**, and deployed on **Render Cloud**.
-
+An AI-powered web application that generates **high-quality LinkedIn posts** based on topic, length, tone, and language preferences.  
+The system leverages **Groq LLM via LangChain**, provides **sentiment analysis**, **readability scoring**, and **text-to-speech audio output**, and is deployed on **Render Cloud**.
 
 ## Live Demo
 
-🔗 Live App: https://genai-post-generator-erv2.onrender.com
+🔗 **Live App:**  https://genai-post-generator-erv2.onrender.com  
 
 
 ## Features
 
-✅ Generate good-quality LinkedIn posts instantly  
-✅ Select topic, length, and language  
-✅ Supports English, Hinglish, French, Spanish  
-✅ Cloud deployed and mobile-friendly too
-✅ Live public demo available
+✔️ Generate professional LinkedIn posts instantly  
+✔️ Select:
+- Topic  
+- Length (Short / Medium / Long)  
+- Tone (Professional / Casual / Motivational / Storytelling)  
+- Language (English, Hinglish, French, Spanish)  
+✔️ Emoji toggle  
+✔️ Auto hashtag generation  
+✔️ Sentiment analysis score  
+✔️ Readability score  
+✔️ Text-to-Speech audio playback  
+✔️ Loading spinner + progress bar  
+✔️ Cloud deployed (Render)  
 
-## System Architecture
+
+##  System Architecture
+
+```mermaid
+graph TD
+U[User Browser] --> UI[Streamlit Web UI]
+UI --> APP[Python Backend]
+APP --> FS[FewShot Prompt Engine]
+APP --> LLM[Groq LLM via LangChain]
+APP --> SA[TextBlob Sentiment Analyzer]
+APP --> RS[TextStat Readability Engine]
+APP --> TTS[gTTS Audio Generator]
+APP --> CLOUD[Render Cloud]
+CLOUD --> UI
+UI --> U
 
 ```
-User Browser
-     ↓
-Streamlit UI
-     ↓
-Prompt Builder (Python)
-     ↓
-LangChain
-     ↓
-Groq LLM API
-     ↓
-Generated Post Output
-```
 
-
-## Tech Stack
-  
-- **Frontend:** Streamlit  
-- **Backend:** Python  
-- **LLM Integration:** LangChain + Groq API  
-- **Deployment:** Render Cloud  
-- **Version Control:** GitHub
-
-## Local Setup
+## Local Setup 
 
 ### 1. Clone repository
 
@@ -90,14 +90,6 @@ pip install -r requirements.txt
 ```bash
 streamlit run main.py --server.port $PORT --server.address 0.0.0.0
 ```
-
-## Future Improvements
-
-- Post templates
-- Hashtag suggestions
-- Save history
-- Download posts
-- User login
 
 ## License
 
