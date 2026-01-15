@@ -37,10 +37,8 @@ The system leverages **Groq LLM via LangChain**, provides **sentiment analysis**
 flowchart TB
 
 User[User Browser]
-
 UI[Streamlit Web UI]
-
-Backend[Python Backend<br/>(Hosted on Render Cloud)]
+Backend[Python Backend (Render Cloud)]
 
 Prompt[Few-Shot Prompt Engine]
 LLM[Groq LLM via LangChain]
