@@ -5,6 +5,7 @@ from gtts import gTTS
 import tempfile
 from textblob import TextBlob
 import textstat
+import time
 
 # ---------------- PAGE CONFIG (ONLY ONCE) ----------------
 st.set_page_config(
@@ -66,14 +67,22 @@ def main():
     generate = st.button("✨ Generate Post", use_container_width=True)
 
     if generate:
-        with st.spinner("Generating your post..."):
-            result = generate_post(
-                selected_length,
-                selected_language,
-                selected_tag,
-                use_emoji,
-                selected_tone
-            )
+       progress = st.progress(0)
+
+       with st.spinner("⏳ Generating your post..."):
+         progress.progress(20)
+
+         result = generate_post(
+           selected_length,
+           selected_language,
+           selected_tag,
+           use_emoji,
+           selected_tone
+         )
+
+         progress.progress(80)
+ 
+       progress.progress(100)
 
             # --------- SAFELY HANDLE TUPLE OR STRING ----------
             if isinstance(result, tuple):
