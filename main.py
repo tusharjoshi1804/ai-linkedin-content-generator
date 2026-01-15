@@ -54,6 +54,7 @@ def main():
     selected_language = st.sidebar.selectbox("🌍 Language", options=language_options)
     selected_tone = st.sidebar.selectbox("🎭 Tone", options=tone_options)
     use_emoji = st.sidebar.checkbox("😄 Include Emojis", value=True)
+    enable_audio = st.sidebar.checkbox("🔊 Enable Audio", value=False)
 
     st.divider()
 
